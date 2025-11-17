@@ -1,2 +1,2 @@
 # Front-End-project.
-Designing a page for buying bikes.
+Designed a page for Aprilia bikes.
