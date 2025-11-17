@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aprilia Bike Store</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      background-color: #000;
+      color: #fff;
+    }
+
+    
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      padding: 15px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+    }
+
+    header h1 {
+      color: #ff0000;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+
+    nav a {
+      color: #fff;
+      margin-left: 25px;
+      text-decoration:red;
+      font-weight: 500;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #31be24;
+      
+    }
+
+    
+    .hero {
+      height: 100%;
+      background: center/cover no-repeat;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding-top: 80px;
+    }
+
+    .hero h2 {
+      font-size: 3rem;
+      color: #fff;
+      text-shadow: 2px 2px 10px #000;
+    }
+
+    .hero p {
+      margin: 15px 0;
+      font-size: 1.2rem;
+    }
+
+    .btn {
+      background: #ff0000;
+      color: #fff;
+      border: none;
+      padding: 12px 25px;
+      cursor: pointer;
+      border-radius: 5px;
+      font-size: 1rem;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: #4ef048;
+    }
+
+    
+    .bikes {
+      padding: 80px 60px;
+      text-align: center;
+      background: #111;
+    }
+
+    .bikes h2 {
+      font-size: 2.5rem;
+      margin-bottom: 40px;
+      color: #ff0000;
+    }
+
+    .bike-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .bike-card {
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 10px;
+      transition: 0.5s;
+    }
+
+    .bike-card:hover {
+      transform: translateY(-5px);
+      background: #222;
+    }
+
+    .bike-card img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .bike-card h3 {
+      margin-top: 15px;
+      color: #fff;
+    }
+
+    .bike-card p {
+      color: #aaa8a8;
+      margin: 10px 0;
+    }
+
+    
+    footer {
+      background: #000;
+      text-align: center;
+      padding: 30px;
+      font-size: 0.9rem;
+      color: #888;
+      border-top: 1px solid #222;
+    }
+
+    
+    @media (max-width: 768px) {
+      header {
+        padding: 10px 20px;
+      }
+
+      .hero h2 {
+        font-size: 2.2rem;
+      }
+
+      .bikes {
+        padding: 60px 20px;
+      }
+
+      .modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+}
+
+.modal-content {
+  background: #111;
+  padding: 30px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  color: #fff;
+  text-align: left;
+  position: relative;
+}
+
+.close {
+  position: absolute;
+  top: 10px; right: 15px;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #ff0000;
+}
+
+.close:hover {
+  color: #56e851;
+}
+.specs ul {
+  list-style: disc;
+  margin-left: 20px;
+  color: #aaa;
+  font-size: 0.95rem;
+}
+
+.specs li {
+  margin: 4px 0;
+}
+
+
+    }
+  </style>
+</head>
+<body>
+  <div id="specModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="close" onclick="closeSpecs()">&times;</span>
+    <h2 id="specTitle"></h2>
+    <ul id="specList"></ul>
+  </div>
+</div>
+
+
+  <header>
+    <h1 style="color: plum;">Aprilia's Store</h1>
+    <nav>
+      <a  href="#home">Home</a>
+      <a href="#bikes">Bikes</a>
+      <a href="#contact">Contact</a>
+      </nav>
+
+
+ </header>
+
+<section class="hero" id="home">
+    <h2 style="color:green;">Ride the Power of Aprilia</h2>
+    <p style="color: #fff;">Experience Italian Engineering Like Never Before.</p>
+    <button style="background-color:red;"  class="btn" onclick="scrollToSection('bikes')">Explore Bikes</button>
+  </section>
+
+  <div id="buyModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span class="close" onclick="closeBuyForm()">&times;</span>
+    <h2>Customer Details</h2>
+    <form id="buyForm" onsubmit="submitBuyForm(event)">
+      <label for="bikeName">Bike Model:</label>
+      <input type="text" id="bikeName" name="bikeName" readonly style="width:100%; padding:8px; margin:6px 0; background:#222; color:#fff; border:1px solid #444;">
+
+      <label for="custName">Full Name:</label>
+      <input type="text" id="custName" name="custName" required style="width:100%; padding:8px; margin:6px 0; background:#222; color:#fff; border:1px solid #444;">
+
+      <label for="custEmail">Email:</label>
+      <input type="email" id="custEmail" name="custEmail" required style="width:100%; padding:8px; margin:6px 0; background:#222; color:#fff; border:1px solid #444;">
+
+      <label for="custPhone">Phone:</label>
+      <input type="tel" id="custPhone" name="custPhone" pattern="[0-9]{10}"  placeholder="10-digit number" style="width:100%; padding:8px; margin:6px 0; background:#222; color:#fff; border:1px solid #444;">
+
+      <label for="custAddress">Address:</label>
+      <textarea id="custAddress" name="custAddress" rows="3" required style="width:100%; padding:8px; margin:6px 0; background:#222; color:#fff; border:1px solid #444;"></textarea>
+
+      <button type="submit" class="btn" style="width:100%; margin-top:10px;">Confirm Purchase</button>
+    </form>
+  </div>
+</div>
+ 
+  
+  <section class="bikes" id="bikes">
+    <h2 style="color: #fff;">Our Bikes</h2>
+    <div class="bike-container">
+      <div class="bike-card">
+        <img src="motogp.webp" alt="Aprilia X Gp">
+        <h3>Aprilia X Gp</h3>
+        <p>NOT FOR SALE!!</p>
+        <button class="btn" onclick="toggleSpecs(this)">Specs</button>
+
+  <div class="specs" style="display:none; margin-top:10px; text-align:left;">
+    <ul>
+      <li>Engine Type: 65degree V4, DOHC, 4 valves per cylinder. </li>
+      <li>Displacement: 1099cc. </li>     
+      <li>Maximum Power: 238bhp @ 13,750rpm.</li>
+      <li>Maximum Torque: 131nm @ 11,750rpm.</li>
+      <li>Top Speed: 340 km/h.</li>
+      <li>Weight: 165 kg.</li>
+      <li>Transmission: 6-speed,casette-type with quickshifter.</li>
+      <li>Tyres: Front-125/70/17 , Rear-200/65/17.</li>
+      <li><b>ELECTRONICS:</b></li>
+      <li>ECU: APX Aprilia Racing ECU with GPS and customizable electronics.</li>
+      <li>Front & Rear Suspensions: pressurized ohlins FKR with mechanical control & Ohlins TTX monoshock.</li>
+      <li>Brakes: Brembo Monnoblock GP4 MS caliper with Brembo T-drive discs.</li>
+      <li>Wheels: Marchesini M7r Genesi forged magnesium wheels.</li>
+      <li>Tyres: Front-125/70/17 , Rear-200/65/17.</li>
+      </ul>
+      
+  </div>
+      </div>
+      
+      
+
+      <div class="bike-card">
+        <img src="rsv4-x-ex3ma.jpg" alt="Aprilia X rsv4-x-ex3ma">
+        <h3>Aprilia X ex3ma</h3>
+        <p>Price: ₹83,00,000</p>
+        <p>Ex-ShowRoom</p>
+        <button class="btn" onclick="openBuyForm(this)">Buy Now</button>
+       <button class="btn" onclick="toggleSpecs(this)">Specs</button>
+
+  <div class="specs" style="display:none; margin-top:10px; text-align:left;">
+    <ul>
+      <li>Engine Type: V4, liquid-cooled engine with SBK racing specifications. </li>
+      <li>Displacement: 1099cc. </li>
+      <li>Maximum Power: 230bhp @ 13,500rpm.</li>
+      <li>Maximum Torque: 131nm @ 11,000rpm.</li>
+      <li>Top Speed: 310 km/h.</li>
+      <li>Weight: 165 kg.</li>
+      <li>Transmission: 6-speed,casette-type with quickshifter.</li>
+      <li>Tyres: Front-125/70/17 , Rear-200/65/17.</li>
+      <li><b>ELECTRONICS:</b></li>
+      <li>ECU: Magneti Marelli ECU with specific settings.</li>
+      <li>HandleBars: Includes specific racing switches and levers</li>
+      <li>Front & Rear Suspensions: pressurized ohlins FKR with hydraulic compression and rebound damping adjustments  & Ohlins TTX mechanical shock absorber.</li>
+      <li> Front & Rear Brakes: Gp4 MS monoblock calipers and PR19x16 master cylinder & Nickel plated-caliper with a Brembo disc.</li>
+      <li>Wheels: Full carbon fiber (front 17"x3.5" , rear 17"17x6").</li>
+      </ul>
+      </div>
+      </div>
+      
+      
+
+      <div class="bike-card">
+        <img src="x trenta1.jpg" alt="Aprilia X trenta">
+        <h3>Aprilia X Trenta</h3>
+        <p>Price: ₹51,30,550.</p>
+        <p>Ex-ShowRoom</p>
+        <button class="btn" onclick="openBuyForm(this)">Buy Now</button>
+
+        <button class="btn" onclick="toggleSpecs(this)">Specs</button>
+
+  <div class="specs" style="display:none; margin-top:10px; text-align:left;">
+    <ul>
+      <li>Engine Type: V4, liquid-cooled engine with SBK racing specifications. </li>
+      <li>Displacement: 1099cc. </li>
+      <li>Maximum Power: 230bhp @ 13,500rpm.</li>
+      <li>Maximum Torque: 131nm @ 11,000rpm.</li>
+      <li>Top Speed: 310 km/h.</li>
+      <li>Weight: 165.5 kg.</li>
+      <li>Transmission: 6-speed,casette-type with quickshifter.</li>
+      <li>Tyres: Front-125/70/17 , Rear-200/65/17.</li>
+      <li><b>ELECTRONICS:</b></li>
+      <li>ECU: Magneti Marelli ECU with specific settings.</li>
+      <li>HandleBars: Includes specific racing switches and levers</li>
+      <li>Front & Rear Suspensions: pressurized ohlins FKR cartridges mechanical control & Ohlins TTX mechanical shock absorber.</li>
+      <li> Front & Rear Brakes: Monoblock calipers with 330mm T-drive discs & Nickel plated-caliper with aBrembo disc.</li>
+      <li>Wheels: Marchesini M7r Genesi forged magnesium wheels.</li>
+      </ul>
+      </div>
+      </div>
+
+      <div class="bike-card">
+        <img src="Rsv4.jpg" alt="Aprilia Rsv4">
+        <h3>Aprilia Rsv4 Factory1100</h3>
+        <p>Price: ₹31,26,000</p>
+        <p>Ex-ShowRoom</p>
+        <button class="btn" onclick="openBuyForm(this)">Buy Now</button>
+
+        <button class="btn" onclick="toggleSpecs(this)">Specs</button>
+
+  <div class="specs" style="display:none; margin-top:10px; text-align:left;">
+    <ul>
+      <li>Engine Type: 65 degree V4 Engine. </li>
+      <li>Displacement: 1099cc. </li>
+      <li>Maximum Power: 220bhp @ 13,000rpm.</li>
+      <li>Maximum Torque: 127nm @ 10,800rpm.</li>
+      <li>Top Speed: 305 kmp/h.</li>
+      <li>Weight: 202kg.</li>
+      <li>Transmission: 6-speed gearbox with a slipper clutch.</li>
+      <li>Tyres: Front-120/70ZR-17 , Rear-200/55ZR-17.</li>
+      <li><b>ELECTRONICS:</b></li>
+      <li>ECU: Magneti Marelli ECU with specific settings.</li>
+      <li>HandleBars: Includes specific racing switches and levers</li>
+      <li>Front & Rear Suspensions: Ohlins 43mm electronically controlled USD fork & Ohlins electronically controlled monoshock.</li>
+      <li> Front & Rear Brakes: Brembo 4 piston caliper monoblock with 330mm discs & Brembo single piston caliper with 220mm disc.</li>
+      </ul>
+        </div>
+        </div>
+        
+        <div class="bike-card">
+            <img src="tuonov4r.webp" alt="Aprilia TuonoV4">
+            <h3>Aprilia TuonoV4</h3>
+            <p>Price: ₹23,00,000</p>
+            <p>Ex-ShowRoom</p>
+            <button class="btn" onclick="openBuyForm(this)">Buy Now</button>
+
+            <button class="btn" onclick="toggleSpecs(this)">Specs</button>
+
+  <div class="specs" style="display:none; margin-top:10px; text-align:left;">
+    <ul>
+      <li>Engine Type: 65 degree V4 Engine. </li>
+      <li>Displacement: 1099cc. </li>
+      <li>Maximum Power: 180bhp @ 11,800rpm.</li>
+      <li>Maximum Torque: 121nm @ 9,650rpm.</li>
+      <li>Top Speed: 280 kmp/h.</li>
+      <li>Weight: 209kg.</li>
+      <li>Transmission: 6-speed gearbox with a slipper clutch.</li>
+      <li>Tyres: Front-120/70ZR-17 , Rear-200/55ZR-17.</li>
+      <li><b>ELECTRONICS:</b></li>
+      <li>ECU: Magneti Marelli ECU with specific settings.</li>
+      <li>HandleBars: Includes specific racing switches and levers</li>
+      <li>Front & Rear Suspensions: Ohlins 43mm electronically controlled USD fork & Ohlins electronically controlled monoshock.</li>
+      <li> Front & Rear Brakes: Brembo 4 piston caliper monoblock with 330mm discs & Brembo single piston caliper with 220mm disc.</li>
+      
+      </ul>
+        </div>
+         </div>
+
+            <div class="bike-card">
+                <img src="Aprilia_RS660.webp" alt="Aprilia rs660">
+                <h3>Aprilia rs660</h3>
+                <p>price: ₹17,74,000</p>
+                <p>Ex-ShowRoom</p>
+                <button class="btn" onclick="openBuyForm(this)">Buy Now</button>
+
+                <button class="btn" onclick="toggleSpecs(this)">Specs</button>
+
+  <div class="specs" style="display:none; margin-top:10px; text-align:left;">
+    <ul>
+      <li>Engine Type: Parallel Twin,liquid-cooled,4 Stroke engine. </li>
+      <li>Displacement: 659cc. </li>
+      <li>Maximum Power: 105bhp @ 10,400rpm.</li>
+      <li>Maximum Torque: 70nm @ 8,400rpm.</li>
+      <li>Top Speed: 280 kmp/h.</li>
+      <li>Weight: 209kg.</li>
+      <li>Transmission: 6-speed with sliper and assist clutch.</li>
+      <li>Tyres: Front-120/70-17 , Rear-180/55-17.</li>
+      <li><b>ELECTRONICS:</b></li>
+      <li>Front & Rear Suspensions: Ohlins 43mm electronically controlled USD fork & Ohlins electronically controlled monoshock.</li>
+      <li> Front & Rear Brakes: Brembo 4 piston caliper monoblock with 330mm discs & Brembo single piston caliper with 220mm disc.</li>
+      <li> Aids: Wheelie control(AWC),Engine Brake(AEB),Cruise Control(ACC), Cornering ABS</li>
+      </ul>
+        </div>
+         </div>
+
+                <div class="bike-card">
+                    <img src="RS457.jpg" alt="Aprilia rs457">
+                    <h3>Aprilia rs457</h3>
+                    <p>price: ₹500,000</p>
+                    <p>Ex-ShowRoom</p>
+                    <button class="btn" onclick="openBuyForm(this)">Buy Now</button>
+
+                    <button class="btn" onclick="toggleSpecs(this)">Specs</button>
+
+  <div class="specs" style="display:none; margin-top:10px; text-align:left;">
+    <ul>
+      <li>Engine Type: Parallel twin-cylinder, liquid-cooled, with four valves per cylinder and ride-by-wire. </li>
+      <li>Displacement: 457cc. </li>
+      <li>Maximum Power: 47.6bhp @ 9,400rpm.</li>
+      <li>Maximum Torque: 43.5nm @ 6,700rpm.</li>
+      <li>Top Speed: 180 kmp/h.</li>
+      <li>Weight: 175 kg.</li>
+      <li>Transmission: 6-speed with slipper clutch.</li>
+      <li>Fuel Capacity: 12.7 litres.</li>
+      <li>Front & Rear Suspensions: 41mm USD forks & Monoshock (Both Adjustable).</li>
+      <li>Front Brake: 320mm disc with a Bybre four piston  radial mount caliper.</li>
+      <li>Rear Brake: 220mm disc with a Bybre single piston  radial mount caliper.</li>
+      <li>Tyres: Front-110/70/17 , Rear-150/60/17.</li>
+      <li><b>ELECTRONICS:</b></li>
+      <li>TFT Display:  A 5-inch TFT color instrument panel with Bluetooth connectivity for smartphone functions like navigation, music, and calls.</li>
+      <li>Riding Modes: he ride-by-wire system offers three riding modes: Rain, Road, and Sport.</li> 
+      <li>Traction Control: Three levels of traction control (ATC), which can also be fully disabled.</li>
+      <li>ABS Customization: The ABS can be adjusted, with the option to disable rear ABS.</li>
+      <li>Lighting: Full LED lighting, including the signature triple headlight cluster.</li>
+      </ul>
+  </div>
+                    </div>
+                    
+                    <div class="bike-card">
+                        <img src="tuono457.jpg" alt="Aprilia Tuono457">
+                        <h3>Aprilia Tuono457</h3>
+                        <p>price: ₹4,00,000</p>
+                        <p>Ex-ShowRoom</p>
+                        <button class="btn" onclick="openBuyForm(this)">Buy Now</button>
+
+                        <button class="btn" onclick="toggleSpecs(this)">Specs</button>
+
+  <div class="specs" style="display:none; margin-top:10px; text-align:left;">
+    <ul>
+      <li>Engine Type: Parallel twin-cylinder, liquid-cooled, with four valves per cylinder and ride-by-wire. </li>
+      <li>Displacement: 457cc. </li>
+      <li>Maximum Power: 47.6bhp @ 9,400rpm.</li>
+      <li>Maximum Torque: 43.5nm @ 6700rpm.</li>
+      <li>Top Speed: 180 kmp/h.</li>
+      <li>Weight: 175 kg.</li>
+      <li>Transmission: 6-speed with slipper clutch.</li>
+      <li>Fuel Capacity: 12.7 litres.</li>
+      <li>Front & Rear Suspensions: 41mm USD forks & Monoshock (Both Adjustable).</li>
+      <li>Front Brake: 320mm disc with a Bybre four piston radial mount caliper.</li>
+      <li>Rear Brake: 220mm disc with a Bybre single piston radial mount caliper.</li>
+      <li>Tyres: Front-110/70/17 , Rear-150/60/17.</li>
+      <li><b>ELECTRONICS:</b></li>
+      <li>TFT Display:  A 5-inch TFT color instrument panel with Bluetooth connectivity for smartphone functions like navigation, music, and calls.</li>
+      <li>Riding Modes: he ride-by-wire system offers three riding modes: Rain, Road, and Sport.</li> 
+      <li>Traction Control: Three levels of traction control (ATC), which can also be fully disabled.</li>
+      <li>ABS Customization: The ABS can be adjusted, with the option to disable rear ABS.</li>
+      <li>Lighting: Full LED lighting, including the signature triple headlight cluster.</li>
+      </ul>
+  </div>
+</div>
+</div>
+ 
+  </section>
+
+  <footer id="contact">
+    <p style="color: green ; font-size: medium;" >Location: Chennai, India || Phone: +91 63741 51181 || ✉ aprilia@bikestore.com</p>
+    <p style="color: #fff;">© 2025 Aprilia Store. All Rights Reserved.</p>
+    <p style="color: red; font-size: large;"># be a racer!</p>
+  </footer>
+  
+  <script>
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+    
+function showSpecs(name, engine, power, speed, weight, transmission) {
+  document.getElementById('specTitle').textContent = name + " Specs";
+  const specs = [
+    `Engine: ${engine}`,
+    `Power: ${power}`,
+    `Top Speed: ${speed}`,
+    `Weight: ${weight}`,
+    `Transmission: ${transmission}`
+  ];
+  document.getElementById('specList').innerHTML = specs.map(s => `<li>${s}</li>`).join('');
+  document.getElementById('specModal').style.display = 'flex';
+}
+
+function closeSpecs() {
+  document.getElementById('specModal').style.display = 'none';
+}
+function toggleSpecs(button) {
+  const card = button.closest('.bike-card');
+  const specs = card.querySelector('.specs');
+  if (specs.style.display === "block") {
+    specs.style.display = "none";
+    button.textContent = "Specs";
+  } else {
+    specs.style.display = "block";
+    button.textContent = "Hide Specs";
+  }
+}
+  
+function openBuyForm(button) {
+  const card = button.closest('.bike-card');
+  const bikeName = card.querySelector('h3').textContent;
+  document.getElementById('bikeName').value = bikeName;
+  document.getElementById('buyModal').style.display = 'flex';
+}
+function closeBuyForm() {
+  document.getElementById('buyModal').style.display = 'none';
+}
+function submitBuyForm(event) {
+  event.preventDefault();
+  const name = document.getElementById('custName').value;
+  const email = document.getElementById('custEmail').value;
+  const phone = document.getElementById('custPhone').value;
+  const address = document.getElementById('custAddress').value;
+  const bike = document.getElementById('bikeName').value;
+
+  alert(`Thank you, ${name}! Your order for ${bike} has been received.\n\nWe’ll contact you soon at ${email} or ${phone}.`);
+  document.getElementById('buyForm').reset();
+  closeBuyForm();
+}
+</script>
+</body>
+</html>
